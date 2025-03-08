@@ -1,9 +1,9 @@
 const GUEST_LOGINS = {
-    customer : {
+    customer: {
         username: 'andrey',
         password: 'asdasd'
     },
-    business : {
+    business: {
         username: 'kevin',
         password: 'asdasd24'
     }
@@ -17,7 +17,7 @@ const LOGIN_URL = 'login/';
 
 const REGISTER_URL = 'registration/';
 
-const PROFILE_URL = 'profile/';
+const PROFILE_URL = 'profiles/';
 
 const BUSINESS_PROFILES_URL = 'profiles/business/';
 

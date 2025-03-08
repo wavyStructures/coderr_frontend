@@ -1,3 +1,5 @@
+const { application } = require("express");
+
 /**
  * Checks if the user is authenticated by verifying the presence of an auth token.
  * If authenticated, redirects to the index page. Otherwise, sets the header.
@@ -31,3 +33,4 @@ function logInSubmit(event) {
 function guestLogin(type) {
   logIn(GUEST_LOGINS[type]);
 }
+

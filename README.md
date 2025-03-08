@@ -40,7 +40,7 @@ Dieses Projekt ist **ausschließlich für Schüler der Developer Akademie** geda
 ## JSDoc - ansehen
 
 1. Navigiere in den Ordner `docs/`
-2. Du kannst das Projekt öffnen mit Doppelklick auf `docs/index.html`, oder im Terminal 
-    Windows: `start docs/index.html`
-    macOS: `open docs/index.html`
-    Linus: `xdg-open docs/index.html` 
+2. Du kannst das Projekt öffnen mit Doppelklick auf `docs/index.html`, oder im Terminal
+   Windows: `start docs/index.html`
+   macOS: `open docs/index.html`
+   Linus: `xdg-open docs/index.html`
