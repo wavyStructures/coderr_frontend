@@ -1,4 +1,5 @@
 function setAuthCredentials(token, userId, username) {
+    console.log('Set auth credentials received for token, userId, username', token, userId, username);
     localStorage.setItem('auth-token', token);
     localStorage.setItem('auth-user', username);
     localStorage.setItem('auth-user-id', userId);
@@ -22,7 +23,7 @@ function getAuthUserId() {
     return localStorage.getItem('auth-user-id');
 }
 
-function jsonToFormData(json){
+function jsonToFormData(json) {
     const formData = new FormData();
 
     const appendFormData = (data, parentKey) => {
@@ -81,7 +82,7 @@ async function getData(endpoint) {
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         return {
-            ok:false,
+            ok: false,
             status: 'error',
             message: errorMessage
         };
@@ -102,11 +103,11 @@ async function postData(endpoint, data) {
             status: response.status,
             data: responseData
         };
-        
+
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         return {
-            ok:false,
+            ok: false,
             status: 'error',
             message: errorMessage
         };
@@ -114,7 +115,7 @@ async function postData(endpoint, data) {
 }
 
 async function postDataWJSON(endpoint, data) {
-    
+
     let header = createHeaders();
     header['Content-Type'] = 'application/json';
     try {
@@ -123,18 +124,18 @@ async function postDataWJSON(endpoint, data) {
             headers: header,
             body: JSON.stringify(data)
         });
-        
+
         const responseData = await response.json();
         return {
             ok: response.ok,
             status: response.status,
             data: responseData
         };
-        
+
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         return {
-            ok:false,
+            ok: false,
             status: 'error',
             message: errorMessage
         };
@@ -161,7 +162,7 @@ async function patchDataWoFiles(endpoint, data) {
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         return {
-            ok:false,
+            ok: false,
             status: 'error',
             message: errorMessage
         };
@@ -189,7 +190,7 @@ async function patchData(endpoint, formData) {
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         return {
-            ok:false,
+            ok: false,
             status: 'error',
             message: errorMessage
         };
@@ -212,7 +213,7 @@ async function deleteData(endpoint) {
     } catch (error) {
         const errorMessage = getErrorMessage(error);
         return {
-            ok:false,
+            ok: false,
             status: 'error',
             message: errorMessage
         };

@@ -20,7 +20,7 @@ async function registration(data) {
         let errorArr = extractErrorMessages(response.data)
         showToastMessage(true, errorArr)
     } else {
-        setAuthCredentials(response.data.token, response.data.user_id, response.data.username)
+        setAuthCredentials(response.data.token, response.data.user.user_id, response.data.user.username)
         window.location.href = "./offer_list.html"
     }
 }

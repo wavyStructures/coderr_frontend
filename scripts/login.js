@@ -1,4 +1,4 @@
-const { application } = require("express");
+// const { application } = require("express");
 
 /**
  * Checks if the user is authenticated by verifying the presence of an auth token.
