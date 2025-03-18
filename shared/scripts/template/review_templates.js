@@ -1,5 +1,5 @@
 function getReviewWLinkTemplateList(reviews) {
-    if (!Array.isArray(reviews) ) {
+    if (!Array.isArray(reviews)) {
         return '<p>Fehler beim Laden der Bewertungen!</p>';
     }
     if (reviews.length === 0) {
@@ -93,8 +93,8 @@ function getReviewEditableTemplate(review, business_user, reviewer) {
     `
 }
 
-function getReviewDialogformTemplate(review, edit=false) {
-    if (!review || typeof review !== 'object' ) {
+function getReviewDialogformTemplate(review, edit = false) {
+    if (!review || typeof review !== 'object') {
         return `
             <div class="card d_flex_cs_gm f_d_c">
                 Es ist ein Fehler aufgetreten
@@ -128,7 +128,7 @@ function getReviewDialogformTemplate(review, edit=false) {
     `
 }
 
-function getDeleteOrNotTemplate(review_id){
+function getDeleteOrNotTemplate(review_id) {
     return `
         <form onclick="stopProp(event)" class="m_auto small_form d_flex_cs_gm f_d_c pos_rel">
                     <div class="d_flex_cc_gxl f_d_c w_full">
@@ -144,7 +144,7 @@ function getDeleteOrNotTemplate(review_id){
 }
 
 function getStarsEditTemplate(count) {
-    if (!count ) {
+    if (!count) {
         return `<div> Es ist ein Fehler aufgetreten </div>`;
     }
     let starsHTML = ""
@@ -159,7 +159,7 @@ function getStarsEditTemplate(count) {
 }
 
 function getStarsTemplate(count) {
-    if (!count ) {
+    if (!count) {
         return `<div> Es ist ein Fehler aufgetreten </div>`;
     }
     let starsHTML = ""
