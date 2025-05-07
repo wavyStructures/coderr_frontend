@@ -86,6 +86,9 @@ async function initBProfile() {
  * @returns {Promise<void>}
  */
 async function loadRenderBusinessBaseInfo() {
+
+  await setReviewsForBusinessUser(currentBusinessUser.user);
+
   let resp = await setSingleOfferCompletedCount(currentBusinessUser.user);
   if (resp.ok) {
     document.getElementById("business_profile_project_count").innerText =

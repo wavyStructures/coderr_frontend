@@ -3,6 +3,8 @@ let currentReviewOrdering = '-updated_at'
 
 async function setReviewsForBusinessUser(id) {
     let reviewsResp = await getData(REVIEW_URL + `?business_user_id=${id}&ordering=${currentReviewOrdering}`);
+    console.log("reviewsResp in setReviewsForBusinessUser", reviewsResp);
+
     if (reviewsResp.ok) {
         currentReviews = reviewsResp.data;
     } else {
@@ -12,6 +14,8 @@ async function setReviewsForBusinessUser(id) {
 
 async function setReviewsForCustomerUser(id) {
     let reviewsResp = await getData(REVIEW_URL + `?reviewer_id=${id}&ordering=${currentReviewOrdering}`);
+    console.log("reviewsResp in setReviewsForCustomerUser", reviewsResp);
+
     if (reviewsResp.ok) {
         currentReviews = reviewsResp.data;
     } else {
@@ -43,7 +47,7 @@ function openReviewEditDialog(reviewId) {
         showToastMessage(true, ['Bewertung konnte nicht gefunden werden'])
     } else {
         openDialog('rating_dialog');
-        document.getElementById('rating_dialog').innerHTML = getReviewDialogformTemplate(currentReviews[index],true)
+        document.getElementById('rating_dialog').innerHTML = getReviewDialogformTemplate(currentReviews[index], true)
     }
 }
 
@@ -80,7 +84,7 @@ async function deleteReview(reviewId) {
             document.getElementById("edit_review_list").innerHTML = getReviewWLinkEditableTemplateList(currentReviews);
             closeDialog('rating_dialog');
             showToastMessage(false, ['Bewertung gelöscht'])
-        } else {            
+        } else {
             showToastMessage(true, extractErrorMessages(resp.data))
         }
     }
@@ -101,15 +105,31 @@ function countStars() {
     return count;
 }
 
+// function meanValueReviews() {
+//     sum = 0;
+//     currentReviews.forEach(rev => {
+//         sum += parseFloat(rev.rating)
+//     });
+//     let result = (sum / currentReviews.length).toFixed(1)
+//     if (!isNaN(result)) {
+//         return result
+//     } else {
+//         return '-'
+//     }
+// }
+
 function meanValueReviews() {
-    sum = 0;
+    if (!Array.isArray(currentReviews)) {
+        console.warn("currentReviews is not an array:", currentReviews);
+        return '-';
+    }
+
+    let sum = 0;
     currentReviews.forEach(rev => {
         sum += parseFloat(rev.rating)
     });
-    let result = (sum / currentReviews.length).toFixed(1)
-    if (!isNaN(result)) {
-        return result
-    } else {
-        return '-'
-    }
+
+    let result = (sum / currentReviews.length).toFixed(1);
+    return isNaN(result) ? '-' : result;
 }
+

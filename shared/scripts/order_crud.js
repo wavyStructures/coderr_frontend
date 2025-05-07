@@ -9,11 +9,15 @@ async function createOrder(detailId) {
         data = {
             offer_detail_id: detailId
         }
+
+        console.log("Creating order for detail ID:", detailId);
+        console.log("Creating order with data:", data);
+
         let orderResp = await postDataWJSON(ORDER_URL, data);
 
         if (!orderResp.ok) {
             showToastMessage(true, extractErrorMessages(orderResp.data))
-        } 
+        }
         return orderResp
     } else {
         showToastMessage(true, ['Das Angebotsdetail konnte nicht gefunden werden'])
