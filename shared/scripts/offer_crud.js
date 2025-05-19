@@ -4,7 +4,7 @@ let openedEditFeaturefields = [];
 let errorIds = [];
 let currentOfferId = null;
 let currentOffers = [];
-let allOffersLength=null;
+let allOffersLength = null;
 
 async function setOffers(filterParams = {}) {
     let offerResp = await getData(OFFER_URL + getOfferFilter(filterParams));
@@ -16,7 +16,7 @@ async function setOffers(filterParams = {}) {
     return offerResp;
 }
 
-async function setOffersWODetails(filterParams = {}) {    
+async function setOffersWODetails(filterParams = {}) {
     let offerResp = await getData(OFFER_URL + getOfferFilter(filterParams));
     if (offerResp.ok) {
         allOffersLength = offerResp.data.count
@@ -98,6 +98,8 @@ async function onOfferSubmit(event) {
 async function addOfferSubmit(form) {
     const data = getFormData(form);
 
+    console.log('in addOfferSubmit DATA', data);
+
     if (validateEmptyFields(form, data)) {
         let cleanData = buildJsonFromFormInput(data);
         let resp = await postDataWJSON(OFFER_URL, cleanData);
@@ -135,7 +137,7 @@ async function editOfferSubmit(form) {
             changedOffer.description = respPatch.data.description;
             changedOffer.title = respPatch.data.title;
             changedOffer.details = respPatch.data.details;
-            
+
             let respImgPatch = await uploadCurrentImg(currentOfferId);
             if (respImgPatch.data) {
                 changedOffer.image = respImgPatch.data.image;
@@ -157,7 +159,7 @@ async function closeProfileBusinessDialogRefresh() {
     currentOffer = null;
 }
 
-function closeEditDialog(){
+function closeEditDialog() {
     currentOfferId = null;
     currentOffer = null;
     closeDialog('dialog_add_edit_offer');
@@ -200,9 +202,9 @@ function validateRequiredInputs(form) {
     });
 }
 
-function validateFeatureLists(){
+function validateFeatureLists() {
     for (let index = 0; index < currentOffer.details.length; index++) {
-        let type = currentOffer.details[index].offer_type;        
+        let type = currentOffer.details[index].offer_type;
         if (currentOffer.details[index].features.length <= 0) {
             errorIds.push(`offer_feature_list_${type}_error`);
         }
@@ -210,11 +212,11 @@ function validateFeatureLists(){
 }
 
 function validateRevisions(data) {
-    
+
     for (let index = 0; index < currentOffer.details.length; index++) {
         let type = currentOffer.details[index].offer_type
         let inputRef = document.getElementById(`offer_revisions_${type}`)
-        if (!data[`offer_revisions_${type}_limitless`]) { 
+        if (!data[`offer_revisions_${type}_limitless`]) {
             let rev = Number(inputRef.value);
             if (!inputRef.value.trim() || !Number.isInteger(rev)) {
                 errorIds.push(`offer_revisions_${type}_error`);
@@ -230,7 +232,7 @@ function validateFeatureFields() {
     }
 }
 
-function changeRevisionInput(id){
+function changeRevisionInput(id) {
     let checkboxRef = document.getElementById(id + "_limitless")
     let inputRef = document.getElementById(id)
     inputRef.disabled = checkboxRef.checked
@@ -274,16 +276,25 @@ async function setSingleOfferCompletedCount(profileId) {
     return resp;
 }
 
-function buildJsonFromFormInput(data) {    
+function buildJsonFromFormInput(data) {
     currentOffer.description = data.offer_description;
     currentOffer.title = data.offer_title;
 
-    for (let index = 0; index < currentOffer.details.length; index++) {
-        currentOffer.details[index].title = data[`offer_title_${currentOffer.details[index].offer_type}`];
-        currentOffer.details[index].delivery_time_in_days = data[`offer_delivery_time_${currentOffer.details[index].offer_type}`];
-        currentOffer.details[index].price = data[`offer_price_${currentOffer.details[index].offer_type}`];
+    for (let index = 0; index < currentOffer.details_input.length; index++) {
+
+        const detail = currentOffer.details_input[index];
+        const type = detail.offer_type;
+
+        detail.title = data['offer_title_${type}'];
+        detail.delivery_time_in_days = data['offer_delivery_time_${type}'];
+        detail.price = data['offer_price_${type}'];
+        // currentOffer.details[index].title = data[`offer_title_${currentOffer.details[index].offer_type}`];
+        // currentOffer.details[index].delivery_time_in_days = data[`offer_delivery_time_${currentOffer.details[index].offer_type}`];
+        // currentOffer.details[index].price = data[`offer_price_${currentOffer.details[index].offer_type}`];
+
         if (data[`offer_revisions_${currentOffer.details[index].offer_type}_limitless`]) {
             currentOffer.details[index].revisions = -1;
+
         } else {
             currentOffer.details[index].revisions = data[`offer_revisions_${currentOffer.details[index].offer_type}`];
         }
@@ -295,7 +306,7 @@ function createEmptyOffer() {
     currentOffer = {
         description: "",
         title: "",
-        details: [
+        details_input: [
             {
                 title: "",
                 revisions: null,
@@ -378,9 +389,9 @@ function calculateNumPages(totalItems, pageSize) {
     return Math.ceil(totalItems / pageSize);
 }
 
-function checkRevisionInput(id){
+function checkRevisionInput(id) {
     let inputRef = document.getElementById(id);
-    if(parseInt(inputRef.value) == NaN || inputRef.value <= 0){
+    if (parseInt(inputRef.value) == NaN || inputRef.value <= 0) {
         inputRef.value = 0;
     } else {
         inputRef.value = parseInt(inputRef.value);

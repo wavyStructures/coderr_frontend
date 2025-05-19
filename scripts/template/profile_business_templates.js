@@ -8,21 +8,20 @@
  * @returns {string} The HTML string for the business profile page.
  */
 function getBusinessProfilePageTemplate(
-  currentUser,
-  currentOrders,
-  currentOffers,
-  currentReviews
+    currentUser,
+    currentOrders,
+    currentOffers,
+    currentReviews
 ) {
-  return `<section id="business" class="business_section section_group d_flex_cs_gxl ">
+    return `<section id="business" class="business_section section_group d_flex_cs_gxl ">
                 <section class="business_section_profile d_flex_cs_gl f_d_c">
                     <div id="business_profile" class="d_flex_cs_gxl f_d_c about_me_section pos_rel w_full section_group_w_border">
                         
                         ${getBusinessProfileTemplate(currentUser)}
                         
                     </div>
-                    <button onclick="redirectToBusinessProfile(${
-                      currentUser.user
-                    })" class="std_btn btn_prime d_flex_cc_gm w_full">
+                    <button onclick="redirectToBusinessProfile(${currentUser.user
+        })" class="std_btn btn_prime d_flex_cc_gm w_full">
                         <img src="./assets/icons/visibility.svg" alt="" srcset="">
                         zum öffentlichen Profil
                     </button>
@@ -38,9 +37,9 @@ function getBusinessProfilePageTemplate(
                     <section id="business_offer_list" class="section_group_w_border d_flex_cs_gl f_d_c ">
                         ${getBusinessOfferTemplateList(currentOffers)}
                         ${getOfferPagination(
-                          calculateNumPages(allOffersLength, PAGE_SIZE),
-                          currentBusinessOfferListFilter.page
-                        )}
+            calculateNumPages(allOffersLength, PAGE_SIZE),
+            currentBusinessOfferListFilter.page
+        )}
                     </section>
                     <section class="section_group w_full d_flex_cs_gl f_d_c">
                         <div class="w_full d_flex_cs_gm review_header">
@@ -85,13 +84,13 @@ function getBusinessProfilePageTemplate(
  * @returns {string} The HTML string for the business offer template list.
  */
 function getBusinessOfferTemplateList(currentOffers) {
-  if (!Array.isArray(currentOffers)) {
-    return `
+    if (!Array.isArray(currentOffers)) {
+        return `
             <div class="d_flex_cc_gm f_d_r_resp_c">
                 <h2 class="font_prime_color">Keine Angebote verfügbar</h2>
             </div>`;
-  }
-  let offerListHTML = `
+    }
+    let offerListHTML = `
         <div class="d_flex_cc_gm f_d_r_resp_c">
             <h2 class="font_prime_color">Meine Angebote</h2>
             <button onclick="openOfferDialog()" class="std_btn btn_prime pad_s d_flex_cc_gm">Angebot hinzufügen 
@@ -99,12 +98,12 @@ function getBusinessOfferTemplateList(currentOffers) {
             </button>
         </div>`;
 
-  currentOffers.forEach((offer) => {
-    user = getUserInfo(offer.user);
-    offerListHTML += getBusinessOfferTemplate(offer, user);
-  });
+    currentOffers.forEach((offer) => {
+        user = getUserInfo(offer.user);
+        offerListHTML += getBusinessOfferTemplate(offer, user);
+    });
 
-  return offerListHTML;
+    return offerListHTML;
 }
 
 /**
@@ -113,13 +112,17 @@ function getBusinessOfferTemplateList(currentOffers) {
  * @returns {string} The HTML string for the business order template list.
  */
 function getBusinessOrderTemplateList() {
-  let orderListHTML = ``;
+    let orderListHTML = ``;
 
-  currentOrders.forEach((order) => {
-    orderListHTML += getBusinessOrderTemplate(order);
-  });
+    if (!Array.isArray(currentOrders) || currentOrders.length === 0) {
+        return `<li class="font_secondary_color">Keine Aufträge gefunden</li>`;
+    }
 
-  return orderListHTML;
+    currentOrders.forEach((order) => {
+        orderListHTML += getBusinessOrderTemplate(order);
+    });
+
+    return orderListHTML;
 }
 
 /**
@@ -129,15 +132,15 @@ function getBusinessOrderTemplateList() {
  * @returns {string} The HTML string for the business order.
  */
 function getBusinessOrderTemplate(order) {
-  if (!order || typeof order !== "object" || !order.id) {
-    return `
-            <li class="order_item_box d_flex_cc_gm w_full f_d_c">
+    if (!order || typeof order !== "object" || !order.id) {
+        return `
+            < li class="order_item_box d_flex_cc_gm w_full f_d_c" >
                 <p>Ungültige Bestellung.</p>
-            </li>`;
-  }
-  customer_user = getUserInfo(order.customer_user);
-  return `
-                        <li class="order_item_box d_flex_cc_gm w_full f_d_c">
+            </li > `;
+    }
+    customer_user = getUserInfo(order.customer_user);
+    return `
+            < li class="order_item_box d_flex_cc_gm w_full f_d_c" >
                             <button open=false class="std_btn btn_prime pad_s order_btn_close d_flex_cc_gm"
                                 onclick="toggleOpen(this)">
                                 <img src="./assets/icons/close.png" alt="" srcset="">
@@ -147,56 +150,48 @@ function getBusinessOrderTemplate(order) {
                                     <h3>Bestellung #${order.id}</h3>
                                 <p>Datum: ${formatDate(order.created_at)}</p>
                                 </div>
-                                <div open=false closable="true" onclick="toggleOpen(this); stopProp(event)" status="${
-                                  order.status
-                                }"
+                                <div open=false closable="true" onclick="toggleOpen(this); stopProp(event)" status="${order.status
+        }"
                                     class="order_status d_flex_cc_gm c_pointer dropdown_wrapper">
                                     <div class="order_status_icon"></div>
                                     <p>${orderStatus[order.status]}</p>
                                     <img src="./assets/icons/arrow_drop_down.svg" alt="">
                                     <div class="dropdown_box">
                                         <ul class="card dropdown_content d_flex_cc_gm f_d_c" >
-                                            <li onclick="changeOrderStatus('in_progress',${
-                                              order.id
-                                            } )">In Bearbeitung</li>
-                                            <li onclick="changeOrderStatus('completed',${
-                                              order.id
-                                            } )">Abgeschlossen</li>
-                                            <li onclick="changeOrderStatus('cancelled',${
-                                              order.id
-                                            } )">Abgebrochen</li>
+                                            <li onclick="changeOrderStatus('in_progress',${order.id
+        } )">In Bearbeitung</li>
+                                            <li onclick="changeOrderStatus('completed',${order.id
+        } )">Abgeschlossen</li>
+                                            <li onclick="changeOrderStatus('cancelled',${order.id
+        } )">Abgebrochen</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="w_full order_item_detail d_flex_cs_gm f_d_c">
                                 <div class="order_info d_flex_cs_gm f_d_c">
-                                    <p class="link" onclick="redirectToBusinessProfile(${
-                                      order.customer_user
-                                    })"><strong>Käufer:</strong> ${
-    customer_user.user.first_name
-  } ${customer_user.user.last_name}</p>
-                                    <p><strong>Titel:</strong> ${
-                                      order.title
-                                    }</p>
-                                    <p><strong>Lieferzeit:</strong> ${
-                                      order.delivery_time_in_days
-                                    } Tage</p>
+                                    <p class="link" onclick="redirectToBusinessProfile(${order.customer_user
+        })"><strong>Käufer:</strong> ${customer_user.first_name
+        } ${customer_user.last_name}</p>
+                                    <p><strong>Titel:</strong> ${order.title
+        }</p>
+                                    <p><strong>Lieferzeit:</strong> ${order.delivery_time_in_days
+        } Tage</p>
                                     <p><strong>Revisionen:</strong> ${getOrderRevisionTemplate(
-                                      order.revisions
-                                    )} </p>
+            order.revisions
+        )} </p>
                                     <p><strong>Preis:</strong> ${parseFloat(
-                                      order.price
-                                    ).toFixed(2)}€</p>
+            order.price
+        ).toFixed(2)}€</p>
                                     <ul class="feature_list">
                                     ${getOrderFeatureListTemplate(
-                                      order.features
-                                    )}
+            order.features
+        )}
                                     </ul>
                                 </div>
                                 <hr>
                             </div>
-                        </li>`;
+                        </li > `;
 }
 
 /**
@@ -206,16 +201,16 @@ function getBusinessOrderTemplate(order) {
  * @returns {string} The HTML string for the order feature list.
  */
 function getOrderFeatureListTemplate(features) {
-  if (!Array.isArray(features) || features.length === 0) {
-    return `<li>Keine Features verfügbar.</li>`;
-  }
+    if (!Array.isArray(features) || features.length === 0) {
+        return `< li > Keine Features verfügbar.</li > `;
+    }
 
-  let featureList = "";
+    let featureList = "";
 
-  features.forEach((feature) => {
-    featureList += `<li>${feature}</li>`;
-  });
-  return featureList;
+    features.forEach((feature) => {
+        featureList += `< li > ${feature}</li > `;
+    });
+    return featureList;
 }
 
 /**
@@ -225,11 +220,11 @@ function getOrderFeatureListTemplate(features) {
  * @returns {string} The HTML string for the revision information.
  */
 function getOrderRevisionTemplate(revisions) {
-  if (revisions < 0) {
-    return "Unbegrenzte";
-  } else {
-    return revisions;
-  }
+    if (revisions < 0) {
+        return "Unbegrenzte";
+    } else {
+        return revisions;
+    }
 }
 
 /**
@@ -239,29 +234,28 @@ function getOrderRevisionTemplate(revisions) {
  * @returns {string} The HTML string for the business profile.
  */
 function getBusinessProfileTemplate(currentUser) {
-  if (!currentUser) {
-    return `<div>Profilinformationen sind nicht verfügbar.</div>`;
-  }
-  return `      
-                    <button onclick="openDialog('business_dialog')"
-                        class="d_flex_cc_gl btn_round_l btn_edit abs_pos_edit_btn">
+
+    if (!currentUser) {
+        return `< div > Profilinformationen sind nicht verfügbar.</div > `;
+    }
+    return `
+            <button onclick = "openDialog('business_dialog')"
+        class="d_flex_cc_gl btn_round_l btn_edit abs_pos_edit_btn" >
                         <img src="./assets/icons/edit.svg" alt="">
                     </button>
                     <div class="d_flex_cs_gm f_d_c profile_detail">
                         <h1 class="font_prime_color w_full">Mein Profil</h1>
                         <img class="profile_img" src="${getPersonImgPath(
-                          currentUser.file
-                        )}" alt="Profilbild">
+        currentUser.file
+    )}" alt="Profilbild">
                         <div class="w_full">
-                            <h3>${currentUser.first_name} ${
-    currentUser.last_name
-  }</h3>
-                            <p class="font_sec_color">@${
-                              currentUser.username
-                            }</p>
+                            <h3>${currentUser.first_name} ${currentUser.last_name
+        }</h3>
+                            <p class="font_sec_color">@${currentUser.username
+        }</p>
                         </div>
                         <p>
-                        ${currentUser.description}
+                        ${currentUser.description?.text || ''}
                         </p>
                     </div>
                     <div class="d_flex_cs_gl f_d_c">
@@ -283,8 +277,8 @@ function getBusinessProfileTemplate(currentUser) {
                             <p class="d_flex_cc_gm">
                                 <img src="./assets/icons/person.svg" alt="" srcset="">
                                 Mitglied seit ${formatToMonthYearAndDay(
-                                  currentUser.created_at
-                                )}
+            currentUser.created_at
+        )}
                             </p>
                             <hr>
                             <p class="d_flex_cc_gm">
@@ -299,95 +293,90 @@ function getBusinessProfileTemplate(currentUser) {
  * Generates the business dialog template.
  * @function getBusinessDialogTemplate
  * @returns {string} The HTML string for the business dialog.
- */
+                        */
 function getBusinessDialogTemplate() {
-  return `
-        <section id="business_dialog"
-                class="dialog d_flex_cc_gl pad_m d_none">
-                ${getBusinessDialogFormTemplate()}
-            </section>`;
+    return `
+                        <section id="business_dialog"
+                            class="dialog d_flex_cc_gl pad_m d_none">
+                            ${getBusinessDialogFormTemplate()}
+                        </section>`;
 }
 
 /**
  * Generates the business dialog form template.
  * @function getBusinessDialogFormTemplate
  * @returns {string} The HTML string for the business dialog form.
- */
+                        */
 function getBusinessDialogFormTemplate() {
-  if (!currentUser) {
-    return `<div>Es ist ein Fehler aufgetreten</div>`;
-  }
-  return `<div onclick="stopProp(event)" class="m_auto dialog_content small_form d_flex_cc_gl f_d_c">
+    if (!currentUser) {
+        return `<div>Es ist ein Fehler aufgetreten</div>`;
+    }
+    return `<div onclick="stopProp(event)" class="m_auto dialog_content small_form d_flex_cc_gl f_d_c">
 
-                    <form onsubmit="businessEditOnsubmit(event)" class="d_flex_cc_gm f_d_c w_full pos_rel">
-                        <button type="button" onclick="abboardBusinessEdit()"
-                            class="d_flex_cc_gl btn_round_l btn_edit abs_pos_edit_btn_m">
-                            <img src="./assets/icons/close_black.svg" alt="">
-                        </button>
-                        <h2 class="font_prime_color p_top_s">Profil editieren</h2>
-                        <div class="image_input_box">
-                            <img id="business_profile_img_input_output" class="profile_img_l" src="${getPersonImgPath(
-                              currentUser.file
-                            )}" alt="Aktuelles Profilbild">
-                            <div onclick="clickFileInput('business_profile_img_input')"
-                                class="file_input d_flex_cc_gl btn_round_m btn_edit btn_border_secondary">
-                                <img src="./assets/icons/photo_camera.svg" alt="" srcset="">
-                                <input onchange="changeCurrentFiles(this)" type="file" id="business_profile_img_input"
-                                    accept="image/*">
-                            </div>
-                        </div>
-                        <p id="img_error" class="form_error d_none">*falsches Dateiformat (png, jpg und jpeg)</p>
-                        <p class="font_sec_color">@${currentUser.username}</p>
-                        <div class="form_group">
-                            <label for="business_edit_first_name">Vorname:</label>
-                            <input type="text" id="business_edit_first_name" name="first_name" value="${
-                              currentUser.first_name
-                            }" required
-                                class="input_field" autocomplete="off">
-                        </div>
-                        <div class="form_group">
-                            <label for="business_edit_last_name">Nachname:</label>
-                            <input type="text" id="business_edit_last_name" name="last_name" value="${
-                              currentUser.last_name
-                            }" required
-                                class="input_field" autocomplete="off">
-                        </div>
-                        <div class="form_group">
-                            <label for="business_edit_email">E-Mail-Adresse:</label>
-                            <input type="email" id="business_edit_email" name="email" value="${
-                              currentUser.email
-                            }" required
-                                class="input_field" autocomplete="off">
-                        </div>
-                        <div class="form_group">
-                            <label for="business_edit_tel">Telefonnummer:</label>
-                            <input type="number" id="business_edit_tel" name="tel" value="${
-                              currentUser.tel
-                            }" required
-                                class="input_field" autocomplete="off">
-                        </div>
-                        <div class="form_group">
-                            <label for="business_edit_location">Standort:</label>
-                            <input class="input_field" type="text" id="business_edit_location" name="location"
-                                value="${currentUser.location}">
-                        </div>
-                        <div class="form_group">
-                            <label for="description">Beschreibung:</label>
-                            <textarea class="input_field" type="text" id="description"
-                                name="description">${
-                                  currentUser.description
-                                }</textarea>
-                        </div>
-                        <div class="form_group">
-                            <label for="working_hours">Verfügbarkeit:</label>
-                            <input class="input_field" type="text" id="working_hours" name="working_hours"
-                                value="${currentUser.working_hours}">
-                        </div>
-                        <div class="form_actions d_flex_cc_gm f_d_r_resp_c">
-                            <button type="submit" class="std_btn btn_prime pad_s">Speichern</button>
-                            <button onclick="abboardBusinessEdit()" type="button"
-                                class="std_btn btn_secondary pad_s">Abbrechen</button>
-                        </div>
-                    </form>
-                </div>`;
+                            <form onsubmit="businessEditOnsubmit(event)" class="d_flex_cc_gm f_d_c w_full pos_rel">
+                                <button type="button" onclick="abboardBusinessEdit()"
+                                    class="d_flex_cc_gl btn_round_l btn_edit abs_pos_edit_btn_m">
+                                    <img src="./assets/icons/close_black.svg" alt="">
+                                </button>
+                                <h2 class="font_prime_color p_top_s">Profil editieren</h2>
+                                <div class="image_input_box">
+                                    <img id="business_profile_img_input_output" class="profile_img_l" src="${getPersonImgPath(
+        currentUser.file
+    )}" alt="Aktuelles Profilbild">
+                                        <div onclick="clickFileInput('business_profile_img_input')"
+                                            class="file_input d_flex_cc_gl btn_round_m btn_edit btn_border_secondary">
+                                            <img src="./assets/icons/photo_camera.svg" alt="" srcset="">
+                                                <input onchange="changeCurrentFiles(this)" type="file" id="business_profile_img_input"
+                                                    accept="image/*">
+                                                </div>
+                                        </div>
+                                        <p id="img_error" class="form_error d_none">*falsches Dateiformat (png, jpg und jpeg)</p>
+                                        <p class="font_sec_color">@${currentUser.username}</p>
+                                        <div class="form_group">
+                                            <label for="business_edit_first_name">Vorname:</label>
+                                            <input type="text" id="business_edit_first_name" name="first_name" value="${currentUser.first_name
+        }" required
+                                                class="input_field" autocomplete="off">
+                                        </div>
+                                        <div class="form_group">
+                                            <label for="business_edit_last_name">Nachname:</label>
+                                            <input type="text" id="business_edit_last_name" name="last_name" value="${currentUser.last_name
+        }" required
+                                                class="input_field" autocomplete="off">
+                                        </div>
+                                        <div class="form_group">
+                                            <label for="business_edit_email">E-Mail-Adresse:</label>
+                                            <input type="email" id="business_edit_email" name="email" value="${currentUser.email
+        }" required
+                                                class="input_field" autocomplete="off">
+                                        </div>
+                                        <div class="form_group">
+                                            <label for="business_edit_tel">Telefonnummer:</label>
+                                            <input type="number" id="business_edit_tel" name="tel" value="${currentUser.tel
+        }" required
+                                                class="input_field" autocomplete="off">
+                                        </div>
+                                        <div class="form_group">
+                                            <label for="business_edit_location">Standort:</label>
+                                            <input class="input_field" type="text" id="business_edit_location" name="location"
+                                                value="${currentUser.location}">
+                                        </div>
+                                        <div class="form_group">
+                                            <label for="description">Beschreibung:</label>
+                                            <textarea class="input_field" type="text" id="description"
+                                                name="description">${currentUser.description
+        }</textarea>
+                                        </div>
+                                        <div class="form_group">
+                                            <label for="working_hours">Verfügbarkeit:</label>
+                                            <input class="input_field" type="text" id="working_hours" name="working_hours"
+                                                value="${currentUser.working_hours}">
+                                        </div>
+                                        <div class="form_actions d_flex_cc_gm f_d_r_resp_c">
+                                            <button type="submit" class="std_btn btn_prime pad_s">Speichern</button>
+                                            <button onclick="abboardBusinessEdit()" type="button"
+                                                class="std_btn btn_secondary pad_s">Abbrechen</button>
+                                        </div>
+                                    </form>
+                                </div>`;
 }

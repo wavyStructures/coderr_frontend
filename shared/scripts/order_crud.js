@@ -6,15 +6,11 @@ let orderStatus = {
 
 async function createOrder(detailId) {
     if (detailId) {
-        data = {
+        const data = {
             offer_detail_id: detailId
         }
 
-        console.log("Creating order for detail ID:", detailId);
-        console.log("Creating order with data:", data);
-
         let orderResp = await postDataWJSON(ORDER_URL, data);
-
         if (!orderResp.ok) {
             showToastMessage(true, extractErrorMessages(orderResp.data))
         }
@@ -26,7 +22,7 @@ async function createOrder(detailId) {
 }
 
 async function updateOrder(orderId, status) {
-    data = {
+    const data = {
         status: status
     }
 
@@ -36,3 +32,5 @@ async function updateOrder(orderId, status) {
     }
     return orderResp
 }
+
+

@@ -68,7 +68,7 @@ function formatToMonthYear(dateString) {
 
 function formatToMonthYearAndDay(dateString) {
     const date = new Date(dateString);
-    const month = date.toLocaleString('default', { month: 'long' });
+    const month = date.toLocaleString('de', { month: 'long' });
     const year = date.getFullYear();
     const day = date.getDate();
     return `${day}. ${month} ${year}`;

@@ -1,5 +1,4 @@
 function setAuthCredentials(token, userId, username) {
-    console.log('Set auth credentials received for token, userId, username', token, userId, username);
     localStorage.setItem('auth-token', token);
     localStorage.setItem('auth-user', username);
     localStorage.setItem('auth-user-id', userId);
@@ -67,6 +66,7 @@ function getErrorMessage(error) {
 }
 
 async function getData(endpoint) {
+
     try {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, {
             method: 'GET',

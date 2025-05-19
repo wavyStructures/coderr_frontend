@@ -4,24 +4,25 @@
  * @returns {string} The HTML string for the business profile data.
  */
 function getBusinessProfileDataTmplate() {
-  if (!currentBusinessUser) {
-    return `<div> Es ist ein Fehler aufgetreten </div>`;
-  }
+    if (!currentBusinessUser) {
+        return `<div> Es ist ein Fehler aufgetreten </div>`;
+    }
 
-  return `    <div class="d_flex_cs_gm f_d_c">
+    console.log('currentBusinessUser', currentBusinessUser);
+
+    return `    <div class="d_flex_cs_gm f_d_c">
                     <img class="profile_img" src="${getPersonImgPath(
-                      currentBusinessUser.file
-                    )}" alt="Profilbild">
+        currentBusinessUser.file
+    )}" alt="Profilbild">
                     <div>
-                        <h3>${currentBusinessUser.first_name} ${
-    currentBusinessUser.last_name
-  }</h3>
+                        <h3>${currentBusinessUser.first_name} ${currentBusinessUser.last_name
+        }</h3>
                         <p class="font_sec_color">
                             @${currentBusinessUser.username}
                         </p>
                     </div>
                     <p>
-                    ${currentBusinessUser.description}
+                    ${currentBusinessUser.description?.text || ''}
                     </p>
                 </div>
                 <div class="d_flex_cs_gl f_d_c">
@@ -43,8 +44,8 @@ function getBusinessProfileDataTmplate() {
                         <p class="d_flex_cc_gm">
                             <img src="./assets/icons/person.svg" alt="" srcset="">
                             Mitglied seit ${formatToMonthYearAndDay(
-                              currentBusinessUser.created_at
-                            )}
+            currentBusinessUser.created_at
+        )}
                         </p>
                         <hr>
                         <p class="d_flex_cc_gm">

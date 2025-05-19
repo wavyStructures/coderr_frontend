@@ -27,13 +27,13 @@ function getReviewWLinkTemplate(review, business_user, reviewer) {
     return `
                         <div class="card d_flex_cs_gm f_d_c">
                             <div class="d_flex_cs_gm f_d_r_resp_c">
-                                <img class="profile_img_small c_pointer" onclick="redirectToCustomerProfile(${reviewer.user.pk})" src="${getPersonImgPath(reviewer.user.file)}" alt="Benutzeravatar">
+                                <img class="profile_img_small c_pointer" onclick="redirectToCustomerProfile(${reviewer.pk})" src="${getPersonImgPath(reviewer.file)}" alt="Benutzeravatar">
                                 <div>
-                                    <h3 class="link c_black w_full" onclick="redirectToCustomerProfile(${reviewer.user.pk})">${reviewer.user.first_name} ${reviewer.user.last_name}</h3>
+                                    <h3 class="link c_black w_full" onclick="redirectToCustomerProfile(${reviewer.pk})">${reviewer.first_name} ${reviewer.last_name}</h3>
                                     <div class="review_stars">
                                         ${getStarsTemplate(review.rating)}
                                     </div>
-                                    <p class="link" onclick="redirectToBusinessProfile(${business_user.user.pk})">über @${business_user.user.username}</p>
+                                    <p class="link" onclick="redirectToBusinessProfile(${business_user.pk})">über @${business_user.username}</p>
                                 </div>
                             </div>
                             <p>${review.description}</p>
@@ -44,6 +44,9 @@ function getReviewWLinkTemplate(review, business_user, reviewer) {
 
 
 function getReviewWLinkEditableTemplateList(reviews) {
+
+    console.log("reviews in getReviewWLinkEditableTemplateList", reviews);
+
     if (!Array.isArray(reviews)) {
         return '<p>Fehler beim Laden der Bewertungen</p>';
     }
@@ -76,15 +79,15 @@ function getReviewEditableTemplate(review, business_user, reviewer) {
                             <img src="./assets/icons/more_vert.svg" alt="" srcset="">
                         </button>
                         <div class="d_flex_cs_gm f_d_r_resp_c">
-                            <img class="profile_img_small" src="${getPersonImgPath(reviewer.user.file)}" alt="Benutzeravatar">
+                            <img class="profile_img_small" src="${getPersonImgPath(reviewer.file)}" alt="Benutzeravatar">
                             <div>
                                 <div class="d_flex_cc_gm">
-                                    <h3 class="c_black w_full">${reviewer.user.first_name} ${reviewer.user.last_name}</h3>
+                                    <h3 class="c_black w_full">${reviewer.first_name} ${reviewer.last_name}</h3>
                                 </div>
                                 <div class="review_stars">
                                 ${getStarsTemplate(review.rating)}
                                 </div>
-                                <p class="link" onclick="redirectToCustomerProfile(${business_user.user.pk})">über @${business_user.user.username}</p>
+                                <p class="link" onclick="redirectToCustomerProfile(${business_user.pk})">über @${business_user.username}</p>
                             </div>
                         </div>
                         <p>${review.description}</p>

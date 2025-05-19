@@ -3,10 +3,9 @@ let currentReviewOrdering = '-updated_at'
 
 async function setReviewsForBusinessUser(id) {
     let reviewsResp = await getData(REVIEW_URL + `?business_user_id=${id}&ordering=${currentReviewOrdering}`);
-    console.log("reviewsResp in setReviewsForBusinessUser", reviewsResp);
 
     if (reviewsResp.ok) {
-        currentReviews = reviewsResp.data;
+        currentReviews = reviewsResp.data.results;
     } else {
         showToastMessage(true, ['Bewertung zu diesem User konnte nicht gefunden werden'])
     }
@@ -14,10 +13,9 @@ async function setReviewsForBusinessUser(id) {
 
 async function setReviewsForCustomerUser(id) {
     let reviewsResp = await getData(REVIEW_URL + `?reviewer_id=${id}&ordering=${currentReviewOrdering}`);
-    console.log("reviewsResp in setReviewsForCustomerUser", reviewsResp);
 
     if (reviewsResp.ok) {
-        currentReviews = reviewsResp.data;
+        currentReviews = reviewsResp.data.results;
     } else {
         showToastMessage(true, ['Bewertung zu diesem User konnte nicht gefunden werden'])
     }
@@ -25,6 +23,9 @@ async function setReviewsForCustomerUser(id) {
 
 async function createReview(data) {
     let index = currentReviews.findIndex(item => item.reviewer === currentUser.user);
+
+    console.log('data at start of createReview', data);
+
     if (index >= 0) {
         showToastMessage(true, ['Du hast diesen User schon einmal Bewertet'])
         return { ok: false }

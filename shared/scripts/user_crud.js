@@ -25,6 +25,8 @@ function transformApiResponse(apiResponse) {
                 first_name: item.first_name,
                 last_name: item.last_name,
                 // },
+                email: item.email,
+                created_at: item.created_at,
                 file: item.file,
                 location: item.location,
                 tel: item.tel,
@@ -38,17 +40,13 @@ function transformApiResponse(apiResponse) {
 }
 
 function getUserInfo(id) {
-    console.log('inside user_crud.js in getUserInfo-function id is:', id);
-    console.log('inside user_crud.js in getUserInfo-function globalUsers is:', globalUsers);
-    // return globalUsers.find(user => user.user.pk === id) || null
-    return globalUsers.find(user => user.id === id) || null
+    return globalUsers.find(user => user.pk === id) || null
 }
 
 async function setCurrentUser() {
     if (getAuthUserId()) {
         let response = await getData(PROFILE_URL + getAuthUserId() + "/");
 
-        console.log("inside setCurrentUser response is:", response);
         console.log("inside setCurrentUser response.data is:", response.data);
 
         if (response.ok) {
