@@ -118,11 +118,18 @@ function getBusinessOrderTemplateList() {
         return `<li class="font_secondary_color">Keine Aufträge gefunden</li>`;
     }
 
+    // currentOrders.forEach((order) => {
+    //     orderListHTML += getBusinessOrderTemplate(order);
+    // });
     currentOrders.forEach((order) => {
-        orderListHTML += getBusinessOrderTemplate(order);
+        const template = getBusinessOrderTemplate(order);
+        console.log('Generated order template:', template);  // Check this
+        orderListHTML += template;
     });
 
     return orderListHTML;
+
+
 }
 
 /**
@@ -134,13 +141,13 @@ function getBusinessOrderTemplateList() {
 function getBusinessOrderTemplate(order) {
     if (!order || typeof order !== "object" || !order.id) {
         return `
-            < li class="order_item_box d_flex_cc_gm w_full f_d_c" >
+            <li class="order_item_box d_flex_cc_gm w_full f_d_c" >
                 <p>Ungültige Bestellung.</p>
             </li > `;
     }
     customer_user = getUserInfo(order.customer_user);
     return `
-            < li class="order_item_box d_flex_cc_gm w_full f_d_c" >
+            <li class="order_item_box d_flex_cc_gm w_full f_d_c" >
                             <button open=false class="std_btn btn_prime pad_s order_btn_close d_flex_cc_gm"
                                 onclick="toggleOpen(this)">
                                 <img src="./assets/icons/close.png" alt="" srcset="">
@@ -202,13 +209,13 @@ function getBusinessOrderTemplate(order) {
  */
 function getOrderFeatureListTemplate(features) {
     if (!Array.isArray(features) || features.length === 0) {
-        return `< li > Keine Features verfügbar.</li > `;
+        return `<li > Keine Features verfügbar.</li > `;
     }
 
     let featureList = "";
 
     features.forEach((feature) => {
-        featureList += `< li > ${feature}</li > `;
+        featureList += `<li > ${feature}</li > `;
     });
     return featureList;
 }

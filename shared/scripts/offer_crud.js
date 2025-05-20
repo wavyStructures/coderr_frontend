@@ -98,14 +98,15 @@ async function onOfferSubmit(event) {
 async function addOfferSubmit(form) {
     const data = getFormData(form);
 
-    console.log('in addOfferSubmit DATA', data);
+    console.log('inside addOfferSubmit', data);
 
     if (validateEmptyFields(form, data)) {
         let cleanData = buildJsonFromFormInput(data);
         let resp = await postDataWJSON(OFFER_URL, cleanData);
 
         if (resp.ok) {
-            await uploadCurrentImg(resp.data.id);
+            //TODO:     REACTIVATE    LATER
+            // await uploadCurrentImg(resp.data.id);
             showToastMessage(false, ['Angebote erstellt'])
             closeProfileBusinessDialogRefresh()
         } else {
@@ -276,37 +277,95 @@ async function setSingleOfferCompletedCount(profileId) {
     return resp;
 }
 
+// function buildJsonFromFormInput(data) {
+// currentOffer.description = data.offer_description;
+// currentOffer.title = data.offer_title;
+
+// for (let index = 0; index < currentOffer.details.length; index++) {
+//     currentOffer.details[index].title = data[`offer_title_${currentOffer.details[index].offer_type}`];
+//     currentOffer.details[index].delivery_time_in_days = data[`offer_delivery_time_${currentOffer.details[index].offer_type}`];
+//     currentOffer.details[index].price = data[`offer_price_${currentOffer.details[index].offer_type}`];
+//     if (data[`offer_revisions_${currentOffer.details[index].offer_type}_limitless`]) {
+//         currentOffer.details[index].revisions = -1;
+//     } else {
+//         currentOffer.details[index].revisions = data[`offer_revisions_${currentOffer.details[index].offer_type}`];
+//     }
+// }
+// return currentOffer;
 function buildJsonFromFormInput(data) {
+    const details_input = [];
+
+    console.log('DATA', data);
+
     currentOffer.description = data.offer_description;
     currentOffer.title = data.offer_title;
 
-    for (let index = 0; index < currentOffer.details_input.length; index++) {
-
-        const detail = currentOffer.details_input[index];
+    for (let index = 0; index < currentOffer.details.length; index++) {
+        const detail = currentOffer.details[index];
         const type = detail.offer_type;
 
-        detail.title = data['offer_title_${type}'];
-        detail.delivery_time_in_days = data['offer_delivery_time_${type}'];
-        detail.price = data['offer_price_${type}'];
-        // currentOffer.details[index].title = data[`offer_title_${currentOffer.details[index].offer_type}`];
-        // currentOffer.details[index].delivery_time_in_days = data[`offer_delivery_time_${currentOffer.details[index].offer_type}`];
-        // currentOffer.details[index].price = data[`offer_price_${currentOffer.details[index].offer_type}`];
+        const title = data[`offer_title_${type}`];
+        const delivery_time_in_days = parseInt(data[`offer_delivery_time_${type}`]);
+        const price = parseFloat(data[`offer_price_${type}`]);
 
-        if (data[`offer_revisions_${currentOffer.details[index].offer_type}_limitless`]) {
-            currentOffer.details[index].revisions = -1;
-
+        let revisions;
+        if (data[`offer_revisions_${type}_limitless`]) {
+            revisions = -1;
         } else {
-            currentOffer.details[index].revisions = data[`offer_revisions_${currentOffer.details[index].offer_type}`];
+            revisions = parseInt(data[`offer_revisions_${type}`]);
         }
+
+        details_input.push({
+            offer_type: type,
+            title: title,
+            delivery_time_in_days: delivery_time_in_days,
+            price: price,
+            revisions: revisions,
+            features: detail.features || []
+
+        });
     }
-    return currentOffer;
+    return {
+        title: currentOffer.title,
+        description: currentOffer.description,
+        details_input: details_input
+    }
+    // currentOffer.details_input = details_input;
+    // return currentOffer;
 }
+
+//     const currentOffer = {
+//         title: data.offer_title,
+//         description: data.offer_description,
+//         details_input: []
+//     };
+//     const offerTypes = ['basic', 'standard', 'premium'];
+
+//     for (let i = 0; i < offerTypes.length; i++) {
+//         const type = offerTypes[i];
+
+//         const title = data[`offer_title_${type}`];
+//         const price = data[`offer_price_${type}`];
+//         const delivery_time_in_days = data[`offer_delivery_time_${type}`];
+//         const limitless = data[`offer_revisions_${type}_limitless`] === 'on';
+//         const revisions = data[`offer_revisions_${type}`];
+
+//         currentOffer.details_input.push({
+//             offer_type: type.toUpperCase(),
+//             title: title || "",
+//             price: price ? Number(price) : null,
+//             delivery_time_in_days: delivery_time_in_days ? Number(delivery_time_in_days) : null,
+//             revisions: limitless ? -1 : (revisions ? Number(revisions) : null)
+//         });
+//     }
+//     return currentOffer;
+// }
 
 function createEmptyOffer() {
     currentOffer = {
         description: "",
         title: "",
-        details_input: [
+        details: [
             {
                 title: "",
                 revisions: null,

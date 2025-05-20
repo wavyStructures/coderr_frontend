@@ -125,12 +125,26 @@ async function postDataWJSON(endpoint, data) {
             body: JSON.stringify(data)
         });
 
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Validation errors from server:", errorData);
+            console.error("Validation errors from server:", JSON.stringify(errorData, null, 2));
+
+            return {
+                ok: false,
+                status: response.status,
+                message: "Validation failed",
+                errors: errorData
+            };
+        }
+
         const responseData = await response.json();
         return {
             ok: response.ok,
             status: response.status,
             data: responseData
         };
+
 
     } catch (error) {
         const errorMessage = getErrorMessage(error);

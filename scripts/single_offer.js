@@ -67,6 +67,9 @@ async function loadRenderSingleOffer() {
  * @param {string} type - The type of the offer detail to render.
  */
 function renderSingleOfferDetail(type) {
+
+  console.log('CURRENT SINGLE OFFER', currentSingleOffer);
+
   if (currentOpenedDetail?.offer_type != type) {
     let foundDetail = currentSingleOffer.details.find(
       (item) => item.offer_type === type

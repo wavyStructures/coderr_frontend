@@ -183,9 +183,7 @@ function getCustomerOrderTemplateList() {
   let orderListHTML = ``;
 
   if (!Array.isArray(currentOrders) || currentOrders.length === 0) {
-    return `
-              < li class="font_secondary_color" > Keine Aufträge gefunden</li > 
-      `;
+    return `<li class="font_secondary_color">Keine Aufträge gefunden</li>`;
   }
 
   console.log('currentOrders', currentOrders);
@@ -217,10 +215,7 @@ function getCustomerOrderTemplate(order) {
     order.revisions == null ||
     order.price == null
   ) {
-    return `
-            <li class="order_item_box d_flex_cs_gm w_full f_d_c">
-                Es ist ein Fehler aufgetreten
-            </li>`;
+    return `<li class="order_item_box d_flex_cs_gm w_full f_d_c">Es ist ein Fehler aufgetreten</li>`;
   }
   return `
         <li class="order_item_box d_flex_cc_gm w_full f_d_c">

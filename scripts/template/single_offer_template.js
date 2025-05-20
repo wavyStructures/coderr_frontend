@@ -8,18 +8,15 @@ function getsingleOfferHeaderTemplate() {
     return `<div>Es ist ein Fehler aufgetreten</div>`;
   }
   return `        <div class="d_flex_cc_gl f_d_r_resp_c">
-                        <img class="profile_img_l c_pointer" onclick="redirectToCustomerProfile(${
-                          currentSingleOfferUser.user
-                        })" src="${getPersonImgPath(
-    currentSingleOfferUser.file
-  )}" alt="Profilbild">
+                        <img class="profile_img_l c_pointer" onclick="redirectToCustomerProfile(${currentSingleOfferUser.user
+    })" src="${getPersonImgPath(
+      currentSingleOfferUser.file
+    )}" alt="Profilbild">
                         <div class="d_flex_cs_gm f_d_c ">
                             <div class="d_flex_cs_gm f_d_r_resp_c">
-                                <h3 class="link c_black" onclick="redirectToCustomerProfile(${
-                                  currentSingleOfferUser.user
-                                })">${currentSingleOfferUser.first_name} ${
-    currentSingleOfferUser.last_name
-  }</h3>
+                                <h3 class="link c_black" onclick="redirectToCustomerProfile(${currentSingleOfferUser.user
+    })">${currentSingleOfferUser.first_name} ${currentSingleOfferUser.last_name
+    }</h3>
                                 <p class="font_sec_color">
                                     @${currentSingleOfferUser.username}
                                 </p>
@@ -43,14 +40,20 @@ function getsingleOfferHeaderTemplate() {
  * @returns {string} The HTML string for the single offer detail.
  */
 function getSingleOfferDetailTemplate() {
+
+  console.log("GETsingelOfferDetailTemplate currentOpenedDetail", currentOpenedDetail);
+
+
   if (!currentOpenedDetail) {
     return `<div>Es ist ein Fehler aufgetreten</div>`;
   }
   let img = currentSingleOffer.image
     ? `<img class="offer_detail_img" src="${getOfferImgPath(
-        currentSingleOffer.image
-      )}" alt="Angebotsbild">`
+      currentSingleOffer.image
+    )}" alt="Angebotsbild">`
     : "";
+
+
 
   return `${img}
             <h3 class="font_prime_color">${currentOpenedDetail.price} €</h3>
@@ -141,9 +144,8 @@ function getShowOrderDialogContentTemplate() {
                         </p>
                         <p class="d_flex_cc_gm">
                             <img src="./assets/icons/schedule.svg" alt="Lieferzeit Icon" class="icon">
-                            ${
-                              currentOpenedDetail.delivery_time_in_days
-                            } Tag(e) Lieferzeit
+                            ${currentOpenedDetail.delivery_time_in_days
+    } Tag(e) Lieferzeit
                         </p>
                         <p class="d_flex_cc_gm">
                             <img src="./assets/icons/autorenew.svg" alt="Revisionen Icon" class="icon">
@@ -157,9 +159,8 @@ function getShowOrderDialogContentTemplate() {
 
                     <p>
                         <strong>Gesamtpreis:</strong>
-                        <strong class="font_prime_color ">${
-                          currentOpenedDetail.price
-                        } €</strong>
+                        <strong class="font_prime_color ">${currentOpenedDetail.price
+    } €</strong>
                     </p>
                     <div class="d_flex_cs_gl">
                         <button onclick="singleOfferOrderCreate()" class="std_btn btn_prime pad_s">Kostenpflichtig bestellen</button>
