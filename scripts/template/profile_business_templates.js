@@ -118,18 +118,11 @@ function getBusinessOrderTemplateList() {
         return `<li class="font_secondary_color">Keine Aufträge gefunden</li>`;
     }
 
-    // currentOrders.forEach((order) => {
-    //     orderListHTML += getBusinessOrderTemplate(order);
-    // });
     currentOrders.forEach((order) => {
-        const template = getBusinessOrderTemplate(order);
-        console.log('Generated order template:', template);  // Check this
-        orderListHTML += template;
+        orderListHTML += getBusinessOrderTemplate(order);
     });
 
     return orderListHTML;
-
-
 }
 
 /**

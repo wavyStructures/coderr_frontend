@@ -102,6 +102,10 @@ async function addOfferSubmit(form) {
 
     if (validateEmptyFields(form, data)) {
         let cleanData = buildJsonFromFormInput(data);
+
+        console.log('inside addOfferSubmit prep for postDataWJSON cleanData is:', cleanData);
+
+
         let resp = await postDataWJSON(OFFER_URL, cleanData);
 
         if (resp.ok) {
@@ -110,6 +114,8 @@ async function addOfferSubmit(form) {
             showToastMessage(false, ['Angebote erstellt'])
             closeProfileBusinessDialogRefresh()
         } else {
+            console.log('Offer creation PROBLEM:', resp);
+            console.log('Offer creation PROBLEM extened:', resp.errors);
             showToastMessage(true, ['Fehler beim Bildupload'])
         }
     }

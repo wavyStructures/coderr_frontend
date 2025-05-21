@@ -40,10 +40,6 @@ function getsingleOfferHeaderTemplate() {
  * @returns {string} The HTML string for the single offer detail.
  */
 function getSingleOfferDetailTemplate() {
-
-  console.log("GETsingelOfferDetailTemplate currentOpenedDetail", currentOpenedDetail);
-
-
   if (!currentOpenedDetail) {
     return `<div>Es ist ein Fehler aufgetreten</div>`;
   }
