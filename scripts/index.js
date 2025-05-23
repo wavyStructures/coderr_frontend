@@ -37,7 +37,16 @@ function renderBaseInfo(baseInfo) {
     if (baseInfo.hasOwnProperty(key)) {
       let element = document.getElementById(`base_info_` + key);
       if (element) {
-        element.innerText = baseInfo[key];
+        let value = baseInfo[key];
+
+        if (key === "average_rating") {
+          value = value.toFixed(1);
+        }
+
+
+        element.innerText = value;
+
+
       }
     }
   }
